@@ -1,1 +1,3 @@
-# EECS731-Project5
+# EECS731 Project5 - World Wide Products Inc.
+
+In this project, I perform Time Series forecasting on a given dataset of previous product orders with the goal of predicting future demand for a single product. In particular, I predict the demand for the most often ordered product across two different timeframes. In the end, I find that some Time Series models perform relatively well for one or both of the timeframes, while other models can perform well but aren't consistent enough for practical use.
