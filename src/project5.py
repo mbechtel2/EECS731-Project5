@@ -12,6 +12,7 @@
 # Python imports
 import pandas as pd
 from math import sqrt
+import matplotlib.pyplot as plt
 
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import TimeSeriesSplit
@@ -76,16 +77,33 @@ ym_order = ym_dataset["Order"]
 ym_order = encoder.fit_transform(ym_order)
 
 # Perform Linear Regression
-test = cross_val_score(linearReg_model, ym_feature, ym_order.ravel(), cv=tscv, scoring='r2')
-print("Linear Regression: {:.2f} ({:.2f})".format(test.mean(), test.std()))
+LRresults = cross_val_score(linearReg_model, ym_feature, ym_order.ravel(), cv=tscv, scoring='r2')
+print("Linear Regression: {:.2f} ({:.2f})".format(LRresults.mean(), LRresults.std()))
 
 # Perform Gradient Boosting
-test = cross_val_score(gradBoost_model, ym_feature, ym_order.ravel(), cv=tscv, scoring='r2')
-print("Gradient Boosting: {:.2f} ({:.2f})".format(test.mean(), test.std()))
+GBresults = cross_val_score(gradBoost_model, ym_feature, ym_order.ravel(), cv=tscv, scoring='r2')
+print("Gradient Boosting: {:.2f} ({:.2f})".format(GBresults.mean(), GBresults.std()))
 
 # Perform Neural Network (MLP)
-test = cross_val_score(neuralNetwork_model, ym_feature, ym_order.ravel(), cv=tscv, scoring='r2')
-print("Neural Network: {:.2f} ({:.2f})".format(test.mean(), test.std()))
+NNresults = cross_val_score(neuralNetwork_model, ym_feature, ym_order.ravel(), cv=tscv, scoring='r2')
+print("Neural Network: {:.2f} ({:.2f})".format(NNresults.mean(), NNresults.std()))
+
+# Print the validation results for each model
+x_vals = range(len(LRresults))
+_,graphs = plt.subplots(1,3)
+
+graphs[0].plot(x_vals, LRresults)
+graphs[0].set_title("Linear Regression")
+graphs[0].set_xticks(x_vals)
+
+graphs[1].plot(x_vals, GBresults)
+graphs[1].set_title("Gradient Boosting")
+
+graphs[2].plot(x_vals, NNresults)
+graphs[2].set_title("Neural Network")
+
+plt.gcf().set_size_inches((16.0,8.0), forward=False)
+plt.savefig("../visualizations/timeframe1.png", bbox_inches='tight', dpi=100)
 
 
 ################################################################################
@@ -107,14 +125,29 @@ md_order = md_dataset["Order"]
 md_order = encoder.fit_transform(md_order)
 
 # Perform Linear Regression
-test = cross_val_score(linearReg_model, md_feature, md_order.ravel(), cv=tscv, scoring='r2')
-print("Linear Regression: {:.2f} ({:.2f})".format(test.mean(), test.std()))
+LRresults = cross_val_score(linearReg_model, md_feature, md_order.ravel(), cv=tscv, scoring='r2')
+print("Linear Regression: {:.2f} ({:.2f})".format(LRresults.mean(), LRresults.std()))
 
 # Perform Gradient Boosting
-test = cross_val_score(gradBoost_model, md_feature, md_order.ravel(), cv=tscv, scoring='r2')
-print("Gradient Boosting: {:.2f} ({:.2f})".format(test.mean(), test.std()))
+GBresults = cross_val_score(gradBoost_model, md_feature, md_order.ravel(), cv=tscv, scoring='r2')
+print("Gradient Boosting: {:.2f} ({:.2f})".format(GBresults.mean(), GBresults.std()))
 
 # Perform Neural Network (MLP)
-test = cross_val_score(neuralNetwork_model, md_feature, md_order.ravel(), cv=tscv, scoring='r2')
-print("Neural Network: {:.2f} ({:.2f})".format(test.mean(), test.std()))
+NNresults = cross_val_score(neuralNetwork_model, md_feature, md_order.ravel(), cv=tscv, scoring='r2')
+print("Neural Network: {:.2f} ({:.2f})".format(NNresults.mean(), NNresults.std()))
 
+# Print the validation results for each model
+x_vals = range(len(LRresults))
+_,graphs = plt.subplots(1,3)
+
+graphs[0].plot(x_vals, LRresults)
+graphs[0].set_title("Linear Regression")
+
+graphs[1].plot(x_vals, GBresults)
+graphs[1].set_title("Gradient Boosting")
+
+graphs[2].plot(x_vals, NNresults)
+graphs[2].set_title("Neural Network")
+
+plt.gcf().set_size_inches((16.0,8.0), forward=False)
+plt.savefig("../visualizations/timeframe2.png", bbox_inches='tight', dpi=100)
